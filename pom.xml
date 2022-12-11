@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.draeger</groupId>
+  <artifactId>MassMailTool</artifactId>
+
+  <!-- Output to jar format -->
+  <packaging>jar</packaging>
+
+  <!-- =================================================================== -->
+  <!-- General project information                                         -->
+  <!-- =================================================================== -->
+
+  <name>MassMailTool</name>
+  <version>1.0</version>
+  <url>https://github.com/draeger/MassMailTool/</url>
+  <inceptionYear>2022</inceptionYear>
+  <description>
+    A useful small stand-alone tool for sending similar emails to many recipients
+  </description>
+
+  <properties>
+    <jdk.version>17</jdk.version>
+    <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
+    <year>${maven.build.timestamp}</year>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.license.url>${project.url}/blob/main/LICENSE</project.license.url>
+    <sysbio.version>1403</sysbio.version> <!-- SVN revision -->
+    <quaqua.version>9</quaqua.version>
+  </properties>
+  
+  	<!-- =================================================================== -->
+	<!-- Repositories -->
+	<!-- =================================================================== -->
+
+	<repositories>
+      <!-- Local libraries are an in-project repository       -->
+      <!-- Add the dependencies and put them in               -->
+      <!-- ${project.basedir}/lib/groupId/artifactId/version/ -->
+    <repository>
+      <id>libs</id>
+      <url>file://${project.basedir}/lib</url>
+    </repository>
+  </repositories>
+
+  <!-- =================================================================== -->
+  <!-- Dependencies                                                        -->
+  <!-- =================================================================== -->
+
+  <dependencies>
+    <dependency>
+      <groupId>de.zbit</groupId>
+      <artifactId>SysBio</artifactId>
+      <version>${sysbio.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.randelshofer</groupId>
+      <artifactId>quaqua</artifactId>
+      <version>${quaqua.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.apple/AppleJavaExtensions -->
+    <dependency>
+      <groupId>com.apple.mrj</groupId>
+      <artifactId>mrjtoolkitstubs</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
+
+  <!-- =================================================================== -->
+  <!-- Building                                                            -->
+  <!-- =================================================================== -->
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
