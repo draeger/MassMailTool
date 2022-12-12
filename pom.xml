@@ -30,9 +30,31 @@
     <quaqua.version>9</quaqua.version>
   </properties>
   
-  	<!-- =================================================================== -->
-	<!-- Repositories -->
-	<!-- =================================================================== -->
+  <issueManagement>
+    <url>https://github.com/draeger/MassMailTool/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+  
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>${project.license.url}</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  	<developers>
+      <developer>
+        <email>andreas.draeger@uni-tuebingen.de</email>
+        <name>Andreas Dräger</name>
+        <url>https://github.com/draeger/</url>
+        <id>draeger</id>
+      </developer>
+  	</developers>
+  
+  <!-- =================================================================== -->
+  <!-- Repositories                                                        -->
+  <!-- =================================================================== -->
 
 	<repositories>
       <!-- Local libraries are an in-project repository       -->
@@ -59,7 +81,6 @@
       <artifactId>quaqua</artifactId>
       <version>${quaqua.version}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.apple/AppleJavaExtensions -->
     <dependency>
       <groupId>com.apple.mrj</groupId>
       <artifactId>mrjtoolkitstubs</artifactId>
@@ -72,6 +93,20 @@
   <!-- =================================================================== -->
 
   <build>
+  
+    <finalName>${project.artifactId}-${project.version}</finalName>
+    
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/site/</directory>
+        <targetPath>${basedir}/docs/</targetPath>
+      </resource>
+    </resources>
+  
     <pluginManagement>
       <plugins>
         <plugin>

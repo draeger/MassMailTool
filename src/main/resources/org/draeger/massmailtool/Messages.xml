@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!-- 
+ *********************************************************************** 
+ * Copyright (C) 2022 by Andreas Dräger.
+ ***********************************************************************
+ *
+-->
+<properties>
+  <comment>
+  This configuration describes the labels of buttons and menu items or 
+  some important user messages in the graphical user interfaces.
+  Although the preferred way would be to have separate key-value pairs for
+  actual labels and their corresponding tooltips, you may want to use just 
+  one key-value pair, in which the tooltip is located after the separator 
+  ";". Otherwise, please use the suffix "_TOOLTIP" to indicate a tooltip 
+  for some label.
+  
+  Please see the JavaDoc for MessageFormatter and Formatter. 
+  </comment>
+  
+  <entry key="ORGANIZATION"></entry>
+  <entry key="PROVIDER">Andreas Dräger</entry>
+  
+  <entry key="SERVER_CONFIG">Server-Konfiguration</entry>
+  <entry key="SERVER_CONFIG_TOOLTIP">Einstellungen zur Konfiguration des Servers zum Versand von Nachrichten.</entry>
+  <entry key="EMAIL_ADDR">E-Mail-Adresse</entry>
+  <entry key="EMAIL_ADDR_TOOLTIP">Bitte geben Sie hier die Absender-Adresse für den E-Mail-Versand ein.</entry>
+  <entry key="USER_NAME">Benutzername</entry>
+  <entry key="USER_NAME_TOOLTIP">Für den E-Mail-Versand</entry>
+  <entry key="SMTP_SERVER">SMTP-Server</entry>
+  <entry key="SMTP_SERVER_TOOLTIP">Name des zum E-Mail-Versand notwendigen SMTP-Servers</entry>
+  <entry key="PASSWD">Passwort</entry>
+  <entry key="PASSWD_TOOLTIP">Bitte geben Sie hier Ihr Passwort ein. Dieses wird ausschließlich lokal gespeichert.</entry>
+  
+  <entry key="PARSING">Platzhalter-Einstellungen</entry>
+  <entry key="PARSING_TOOLTIP">Einstellungen zum Leseverhalten von Platzhaltern</entry>
+  <entry key="TOKEN_START">Marke zum Anfang</entry>
+  <entry key="TOKEN_START_TOOLTIP">Legt fest, welches Auszeichnungszeichen den Beginn eines Platzhalters markiert.</entry>
+  <entry key="TOKEN_END">Marke zum Ende</entry>
+  <entry key="TOKEN_END_TOOLTIP">Legt fest, welches Auszeichnungszeichen das Ende eines Platzhalters markiert.</entry>
+  
+  <entry key="SEND">Abschicken</entry>
+  <entry key="SEND_TOOLTIP">Hiermit werden die Platzhalter im obigen Text anhand der gegebenen Tabelle ersetzt und der Text als E-Mail zeilenweise an alle in der Tabelle angegebenen Empfänger geschickt.</entry>
+  <entry key="SUBJECT">Betreff</entry>
+  <entry key="MESSAGE">Mitteilung</entry>
+  
+  <entry key="org.draeger.massmailtool.About">About.html</entry>
+  <entry key="org.draeger.massmailtool.Help">Help.html</entry>
+  <entry key="org.draeger.massmailtool.License">License.txt</entry>
+  
+
+</properties>
