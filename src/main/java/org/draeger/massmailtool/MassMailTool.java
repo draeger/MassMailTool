@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import de.zbit.AppConf;
 import de.zbit.Launcher;
 import de.zbit.gui.GUIOptions;
+import de.zbit.io.csv.CSVOptions;
 import de.zbit.util.ResourceManager;
 import de.zbit.util.Utils;
 import de.zbit.util.prefs.KeyProvider;
@@ -56,6 +57,7 @@ public class MassMailTool extends Launcher {
   @Override
   public List<Class<? extends KeyProvider>> getCmdLineOptions() {
     List<Class<? extends KeyProvider>> list = getInteractiveOptions();
+    list.add(CSVOptions.class);
     list.add(GUIOptions.class);
     return list;
   }
@@ -66,6 +68,7 @@ public class MassMailTool extends Launcher {
     List<Class<? extends KeyProvider>> list = new ArrayList<Class<? extends KeyProvider>>(1);
     list.add(MassMailToolOptions.class);
     MassMailToolOptions.PASSWD.setSecret(true);
+    list.add(ParseOptions.class);
     return list;
   }
 
