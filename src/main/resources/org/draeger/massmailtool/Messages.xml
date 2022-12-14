@@ -32,18 +32,31 @@
   <entry key="SMTP_SERVER_TOOLTIP">Name des zum E-Mail-Versand notwendigen SMTP-Servers</entry>
   <entry key="PASSWD">Passwort</entry>
   <entry key="PASSWD_TOOLTIP">Bitte geben Sie hier Ihr Passwort ein. Dieses wird ausschließlich lokal gespeichert.</entry>
-  
+    
   <entry key="PARSING">Platzhalter-Einstellungen</entry>
   <entry key="PARSING_TOOLTIP">Einstellungen zum Leseverhalten von Platzhaltern</entry>
   <entry key="TOKEN_START">Marke zum Anfang</entry>
   <entry key="TOKEN_START_TOOLTIP">Legt fest, welches Auszeichnungszeichen den Beginn eines Platzhalters markiert.</entry>
   <entry key="TOKEN_END">Marke zum Ende</entry>
   <entry key="TOKEN_END_TOOLTIP">Legt fest, welches Auszeichnungszeichen das Ende eines Platzhalters markiert.</entry>
+    
+  <entry key="TITLE_TABLE_READER">Tabelleneinstellungen</entry>
   
   <entry key="SEND">Abschicken</entry>
   <entry key="SEND_TOOLTIP">Hiermit werden die Platzhalter im obigen Text anhand der gegebenen Tabelle ersetzt und der Text als E-Mail zeilenweise an alle in der Tabelle angegebenen Empfänger geschickt.</entry>
   <entry key="SUBJECT">Betreff</entry>
   <entry key="MESSAGE">Mitteilung</entry>
+  
+  <entry key="CONFIRMATION_TITLE">Bitte bestätigen</entry>
+  <entry key="EMPTY_SUBJECT">Wurde die Betreffzeile vergessen auszufüllen?</entry>
+  <entry key="EMPTY_MESSAGE">Wurde der Nachrichtentext vergessen einzutragen?</entry>
+  <entry key="SEND_NOW">Soll diese Nachricht jetzt an alle in der Tabelle aufgeführten Empfänger gesendet werden?</entry>
+  <entry key="STARTING_WORK">Beginne mit der Arbeit.</entry>
+  
+  <entry key="CUT">Ausschneiden</entry>
+  <entry key="COPY">Kopieren</entry>
+  <entry key="PASTE">Einfügen</entry>
+  <entry key="SELECT_ALL">Alles auswählen</entry>
   
   <entry key="org.draeger.massmailtool.About">About.html</entry>
   <entry key="org.draeger.massmailtool.Help">Help.html</entry>

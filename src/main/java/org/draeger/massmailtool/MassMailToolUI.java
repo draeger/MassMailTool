@@ -14,9 +14,12 @@ import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -33,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
+
+import org.apache.commons.text.StringSubstitutor;
 
 import de.zbit.AppConf;
 import de.zbit.gui.BaseFrame;
@@ -161,23 +166,78 @@ public class MassMailToolUI extends BaseFrame {
 
   @SuppressWarnings("unchecked")
   public void sendMail() {
-    SBPreferences prefs = SBPreferences.getPreferencesFor(MassMailToolOptions.class);
+    SBPreferences prefs = SBPreferences.getPreferencesFor(MailServerOptions.class);
     boolean send = true;
-    if ((prefs.getString(MassMailToolOptions.EMAIL_ADDR).length() == 0) ||
-        (prefs.getString(MassMailToolOptions.PASSWD).length() == 0) ||
-        (prefs.getString(MassMailToolOptions.USER_NAME).length() == 0) ||
-        (prefs.getString(MassMailToolOptions.SMTP_SERVER).length() == 0)) {
-      send = PreferencesDialog.showPreferencesDialog(MassMailToolOptions.class);
+    if ((prefs.getString(MailServerOptions.EMAIL_ADDR).length() == 0) ||
+        (prefs.getString(MailServerOptions.PASSWD).length() == 0) ||
+        (prefs.getString(MailServerOptions.USER_NAME).length() == 0) ||
+        (prefs.getString(MailServerOptions.SMTP_SERVER).length() == 0)) {
+      send = PreferencesDialog.showPreferencesDialog(MailServerOptions.class);
     }
     if (send) {
+      int forgotSomething = JOptionPane.NO_OPTION;
       if (subject.getText().trim().length() == 0) {
-        // TODO
+        forgotSomething = GUITools.showQuestionMessage(this, bundle.getString("EMPTY_SUBJECT"),
+          bundle.getString("CONFIRMATION_TITLE"), JOptionPane.YES_NO_OPTION);
+      } else if (message.getText().trim().length() == 0) {
+        forgotSomething = GUITools.showQuestionMessage(this, bundle.getString("EMPTY_MESSAGE"),
+          bundle.getString("CONFIRMATION_TITLE"), JOptionPane.YES_NO_OPTION);
       }
-      if (message.getText().trim().length() == 0) {
-        // TODO
+      if ((forgotSomething == JOptionPane.NO_OPTION)
+          && (JOptionPane.YES_OPTION == GUITools.showQuestionMessage(this,
+            bundle.getString("SEND_NOW"), bundle.getString("CONFIRMATION_TITLE"),
+            JOptionPane.YES_NO_OPTION))) {
+        SwingWorker<Void, Void> sendWorker = new SwingWorker<Void, Void>() {
+
+          @Override
+          protected Void doInBackground() throws Exception {
+            // TODO Auto-generated method stub
+            return null;
+          }
+
+        };
+        logger.info(bundle.getString("STARTING_WORK"));
+        setInputAreasEnabled(false);
+        Map<String, Object> placeholder = new HashMap<>();
+        SBPreferences pref = SBPreferences.getPreferencesFor(ParseOptions.class);
+        String tokenStart = pref.get(ParseOptions.TOKEN_START);
+        String tokenEnd = pref.get(ParseOptions.TOKEN_END);
+        for (int i = 0; i < table.getRowCount(); i++) {
+          for (int j = 0; j < table.getColumnCount(); j++) {
+            placeholder.put(table.getColumnName(j), table.getValueAt(i, j));
+          }
+          String sbjt = subject.getText();
+          String mssg = message.getText();
+          StringSubstitutor sub = new StringSubstitutor(placeholder);
+          sub.setVariablePrefix(tokenStart);
+          sub.setVariableSuffix(tokenEnd);
+          String lines[] = mssg.split("\n");
+          // initial length = charcter count + linebreak count
+          StringWriter writer = new StringWriter(mssg.length() + lines.length);
+          for (int k = 0; k < lines.length; k++) {
+            String result = lines[k];
+            result = sub.replace(result).replaceAll("\\s+", " ");
+            writer.append(result);
+            writer.append(System.lineSeparator());
+          }
+          writer.flush();
+          String result = writer.toString(); //sub.replace(mssg).replaceAll("\\s+", " ");
+          System.out.println(result);
+        }
+        setInputAreasEnabled(true);
       }
-      logger.info("Start work");
     }
+  }
+
+
+  /**
+   *
+   */
+  private void setInputAreasEnabled(boolean enabled) {
+    table.setEnabled(enabled);
+    subject.setEnabled(enabled);
+    message.setEnabled(enabled);
+    button.setEnabled(enabled);
   }
 
 
@@ -203,7 +263,10 @@ public class MassMailToolUI extends BaseFrame {
       }
       files = accepted.toArray(new File[0]);
       try {
-        CSVReader io = CSVImporterV2.showDialog(this, files[0].getAbsolutePath(), "Titel");
+        CSVReader reader = new CSVReader(files[0].getAbsolutePath());
+        reader.setContainsHeaders(true);
+        reader.setSkipLines(0);
+        CSVReader io = CSVImporterV2.showDialog(this, reader, bundle.getString("TITLE_TABLE_READER"));
         String[] header = io.getHeader();
         String[][] data = io.getData();
         if ((data != null) && (header != null)) {

@@ -3,7 +3,6 @@
  */
 package org.draeger.massmailtool;
 
-import java.awt.Window;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,8 +65,8 @@ public class MassMailTool extends Launcher {
   @Override
   public List<Class<? extends KeyProvider>> getInteractiveOptions() {
     List<Class<? extends KeyProvider>> list = new ArrayList<Class<? extends KeyProvider>>(1);
-    list.add(MassMailToolOptions.class);
-    MassMailToolOptions.PASSWD.setSecret(true);
+    list.add(MailServerOptions.class);
+    MailServerOptions.PASSWD.setSecret(true);
     list.add(ParseOptions.class);
     return list;
   }
@@ -134,7 +133,8 @@ public class MassMailTool extends Launcher {
 
 
   @Override
-  public Window initGUI(AppConf appConf) {
+  public java.awt.Window initGUI(AppConf appConf) {
+    java.awt.Toolkit.getDefaultToolkit().getSystemEventQueue().push(new TCPopupEventQueue());
     return new MassMailToolUI(appConf);
   }
 

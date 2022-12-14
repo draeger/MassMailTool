@@ -15,10 +15,10 @@ import de.zbit.util.prefs.OptionGroup;
  * @author Andreas Dr&auml;ger
  *
  */
-public interface MassMailToolOptions extends KeyProvider {
+public interface MailServerOptions extends KeyProvider {
 
   /** Localization support. */
-  static final ResourceBundle bundle = ResourceManager.getBundle(MassMailToolOptions.class.getPackageName() + ".Messages");
+  static final ResourceBundle bundle = ResourceManager.getBundle(MailServerOptions.class.getPackageName() + ".Messages");
 
   Option<String> EMAIL_ADDR  = new Option<>("EMAIL_ADDR",  String.class, bundle, "");
   Option<String> USER_NAME   = new Option<>("USER_NAME",   String.class, bundle, "");
