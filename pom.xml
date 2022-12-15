@@ -91,6 +91,12 @@
       <artifactId>commons-text</artifactId>
       <version>1.10.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.5.0-b01</version>
+      </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

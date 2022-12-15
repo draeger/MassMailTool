@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -53,12 +54,19 @@ import de.zbit.io.filefilter.SBFileFilter;
 import de.zbit.util.ResourceManager;
 import de.zbit.util.StringUtil;
 import de.zbit.util.prefs.SBPreferences;
+import de.zbit.util.progressbar.AbstractProgressBar;
+import de.zbit.util.progressbar.gui.ProgressBarSwing;
 
 
 /**
  * @author Andreas Dr&auml;ger
  */
 public class MassMailToolUI extends BaseFrame {
+
+  /**
+   * Required KEY for a Column Name in the table to get the e-mail addresses of recipients.
+   */
+  public static final String EMAIL = "E-Mail";
 
   /** Generated serial version identifier */
   private static final long serialVersionUID = -4624807465999504777L;
@@ -79,6 +87,9 @@ public class MassMailToolUI extends BaseFrame {
   private JTextField subject;
   private JTextArea message;
   private JTable table;
+  private String[] header;
+  private String[][] data;
+  private EMailSender sender;
 
   /**
    * @param appConf
@@ -149,8 +160,10 @@ public class MassMailToolUI extends BaseFrame {
     message = new JTextArea();
     subject.setBorder(BorderFactory.createTitledBorder(format(" {0} ", bundle.getString("SUBJECT"))));
     message.setBorder(BorderFactory.createTitledBorder(format(" {0} ", bundle.getString("MESSAGE"))));
+    //JScrollPane sSbj = new JScrollPane(subject, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    JScrollPane sMsg = new JScrollPane(message, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     LayoutHelper.addComponent(center, l, subject, 0, 0, 1, 1, 1d, 0d);
-    LayoutHelper.addComponent(center, l, message, 0, 1, 1, 1, 1d, 1d);
+    LayoutHelper.addComponent(center, l, sMsg, 0, 1, 1, 1, 1d, 1d);
     p.add(center, BorderLayout.CENTER);
     JPanel south = new JPanel();
     button = new JButton(bundle.getString("SEND"));
@@ -187,46 +200,106 @@ public class MassMailToolUI extends BaseFrame {
           && (JOptionPane.YES_OPTION == GUITools.showQuestionMessage(this,
             bundle.getString("SEND_NOW"), bundle.getString("CONFIRMATION_TITLE"),
             JOptionPane.YES_NO_OPTION))) {
-        SwingWorker<Void, Void> sendWorker = new SwingWorker<Void, Void>() {
-
-          @Override
-          protected Void doInBackground() throws Exception {
-            // TODO Auto-generated method stub
-            return null;
-          }
-
-        };
         logger.info(bundle.getString("STARTING_WORK"));
         setInputAreasEnabled(false);
+        AbstractProgressBar memoryBar = statusBar.showProgress();
+        ProgressBarSwing progressBar = (ProgressBarSwing) memoryBar;
+        progressBar.getProgressBar().setStringPainted(true);
         Map<String, Object> placeholder = new HashMap<>();
         SBPreferences pref = SBPreferences.getPreferencesFor(ParseOptions.class);
-        String tokenStart = pref.get(ParseOptions.TOKEN_START);
-        String tokenEnd = pref.get(ParseOptions.TOKEN_END);
-        for (int i = 0; i < table.getRowCount(); i++) {
-          for (int j = 0; j < table.getColumnCount(); j++) {
-            placeholder.put(table.getColumnName(j), table.getValueAt(i, j));
-          }
-          String sbjt = subject.getText();
-          String mssg = message.getText();
-          StringSubstitutor sub = new StringSubstitutor(placeholder);
-          sub.setVariablePrefix(tokenStart);
-          sub.setVariableSuffix(tokenEnd);
-          String lines[] = mssg.split("\n");
-          // initial length = charcter count + linebreak count
-          StringWriter writer = new StringWriter(mssg.length() + lines.length);
-          for (int k = 0; k < lines.length; k++) {
-            String result = lines[k];
-            result = sub.replace(result).replaceAll("\\s+", " ");
-            writer.append(result);
-            writer.append(System.lineSeparator());
-          }
-          writer.flush();
-          String result = writer.toString(); //sub.replace(mssg).replaceAll("\\s+", " ");
-          System.out.println(result);
+        if (sender == null) {
+          sender = new EMailSender(
+            prefs.get(MailServerOptions.SMTP_SERVER),
+            Integer.parseInt(prefs.get(MailServerOptions.PORT).toString()),
+            Boolean.parseBoolean(prefs.get(MailServerOptions.AUTHENTIFICATION).toString()),
+            Boolean.parseBoolean(prefs.get(MailServerOptions.START_TLS).toString()),
+            prefs.get(MailServerOptions.USER_NAME),
+            prefs.get(MailServerOptions.PASSWD));
         }
-        setInputAreasEnabled(true);
+        Window window = this;
+        GUITools.setEnabled(false, getJMenuBar(), getJToolBar(),
+          BaseAction.FILE_OPEN, BaseAction.FILE_CLOSE, BaseAction.FILE_SAVE,
+          BaseAction.FILE_SAVE_AS);
+        SwingWorker<String[], String[]> replaceAndSendWorker = new SwingWorker<>() {
+
+          @Override
+          protected String[] doInBackground() throws Exception {
+            String tokenStart = pref.get(ParseOptions.TOKEN_START);
+            String tokenEnd = pref.get(ParseOptions.TOKEN_END);
+            String result[] = {"", ""};
+            for (int i = 0; i < data.length; i++) {
+              for (int j = 0; j < header.length; j++) {
+                placeholder.put(header[j], data[i][j]);
+              }
+              result[0] = replace(subject.getText(), placeholder, tokenStart, tokenEnd);
+              result[1] = replace(message.getText(), placeholder, tokenStart, tokenEnd);
+
+              String recipient = placeholder.get(EMAIL).toString();
+              if ((recipient == null) || recipient.isEmpty()) {
+                throw new Exception(format(bundle.getString("UNKNOWN_EMAIL_ADDR"), EMAIL));
+              } else {
+                logger.info(format(bundle.getString(""), recipient));
+                sender.send(recipient, pref.get(MailServerOptions.EMAIL_ADDR), result[0], result[1]);
+              }
+            }
+            return result;
+          }
+
+          @Override
+          protected void process(List<String[]> chunks) {
+            progressBar.drawProgressBar(
+              ((((int) progressBar.getCallNumber()) + chunks.size()) * 100) / data.length,
+              -1, null);
+            super.process(chunks);
+          }
+
+          @Override
+          protected void done() {
+            super.done();
+            try {
+              get();
+              logger.info(format(bundle.getString("SENDING_COMPLETED"), table.getRowCount()));
+            } catch (InterruptedException | ExecutionException exc) {
+              GUITools.showErrorMessage(window, exc);
+            }
+            progressBar.finished();
+            statusBar.hideProgress();
+            setInputAreasEnabled(true);
+            GUITools.setEnabled(true, window, BaseAction.FILE_OPEN, BaseAction.FILE_CLOSE, BaseAction.FILE_SAVE, BaseAction.FILE_SAVE_AS);
+          }
+        };
+        replaceAndSendWorker.execute();
       }
     }
+  }
+
+
+  /**
+   * @param placeholder
+   * @param tokenStart
+   * @param tokenEnd
+   * @param mssg
+   * @return A new String in which all place holders have been filled with values.
+   */
+  public String replace(String mssg, Map<String, Object> placeholder, String tokenStart,
+    String tokenEnd) {
+    StringSubstitutor sub = new StringSubstitutor(placeholder);
+    sub.setVariablePrefix(tokenStart);
+    sub.setVariableSuffix(tokenEnd);
+    String lines[] = mssg.split(System.lineSeparator());
+    // initial length = character count + line break count
+    StringWriter writer = new StringWriter(mssg.length() + lines.length);
+    String result;
+    for (int i = 0; i < lines.length; i++) {
+      result = lines[i];
+      result = sub.replace(result).replaceAll("\\s+", " ");
+      writer.append(result);
+      writer.append(System.lineSeparator());
+    }
+    writer.flush();
+    result = writer.toString();
+    logger.fine(result);
+    return result;
   }
 
 
@@ -265,11 +338,15 @@ public class MassMailToolUI extends BaseFrame {
       try {
         CSVReader reader = new CSVReader(files[0].getAbsolutePath());
         reader.setContainsHeaders(true);
-        reader.setSkipLines(0);
+        reader.setAutoDetectContentStart(false);
         CSVReader io = CSVImporterV2.showDialog(this, reader, bundle.getString("TITLE_TABLE_READER"));
-        String[] header = io.getHeader();
-        String[][] data = io.getData();
+        logger.info(format(bundle.getString("READING_CSV_FILE"), files[0].getName()));
+        header = io.getHeader();
+        data = io.getData();
         if ((data != null) && (header != null)) {
+          for (int i = 0; i < header.length; i++) {
+            header[i] = header[i].trim();
+          }
           table = new JTable(data, header);
           split.setLeftComponent(
             new JScrollPane(table,
@@ -280,6 +357,9 @@ public class MassMailToolUI extends BaseFrame {
         }
         SBPreferences prefs = SBPreferences.getPreferencesFor(GUIOptions.class);
         prefs.put(GUIOptions.OPEN_DIR, files[0].getParentFile());
+        GUITools.setEnabled(false, getJMenuBar(), getJToolBar(), BaseAction.FILE_OPEN);
+        GUITools.setEnabled(true, getJMenuBar(), getJToolBar(), BaseAction.FILE_CLOSE, BaseAction.FILE_SAVE, BaseAction.FILE_SAVE_AS);
+        logger.info(format(bundle.getString("READING_CSV_FILE_SUCCESSFUL"), files[0].getName()));
       } catch (IOException exc) {
         exc.printStackTrace();
       }

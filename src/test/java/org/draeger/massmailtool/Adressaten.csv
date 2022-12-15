@@ -1,4 +1,4 @@
-﻿Geschlechtssuffix;Anrede;Titel;Name;Anmerkungen;E-Mail
+Suffix;Anrede;Titel;Name;Anmerkungen;E-Mail
 ;;;Damen und Herren;Test-Anmerkung;example@example.com
 ;Frau;Dr.;Müller;Test-Anmerkung;mueller@example.com
 r;Herr;;Meier;Test-Anmerkung;meier@example.com

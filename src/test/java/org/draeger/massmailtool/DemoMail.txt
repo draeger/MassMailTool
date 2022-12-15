@@ -1,9 +1,9 @@
-Sehr geehrte${Geschlechtssuffix} ${Anrede} ${Titel} ${Name},
+Sehr geehrte${Suffix} ${Anrede} ${Titel} ${Name},
 
 hiermit möchte ich Sie freundlich auf den wichtigen Sachverhalt hinweisen und
 Sie bitten, diesen zur Kenntnis zu nehmen: ${Anmerkungen}.
 
-Daran, können Sie, werte${Geschlechtssuffix} ${Anrede} ${Titel} ${Name},
+Daran, können Sie, werte${Suffix} ${Anrede} ${Titel} ${Name},
 gut die Wichtigkeit des Themas erkennen.
 
 Insbesondere wären mir folgende Aspekte besonders wichtig.
