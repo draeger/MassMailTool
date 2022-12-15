@@ -55,23 +55,36 @@ public class EMailSender {
     logger.info(format(bundle.getString("CONNECTING_TO_SERVER"), host));
     Properties p = System.getProperties();
     p.put("mail.smtp.host", host);
-    p.put("mail.smtp.port", port);
-    p.put("mail.smtp.auth", auth);
-    p.put("mail.smtp.starttls.enable", startTLS);
+    p.put("mail.smtp.port", Integer.toString(port));
+    p.put("mail.smtp.auth", Boolean.toString(auth));
+    p.put("mail.smtp.socketFactory.port", Integer.toString(port));
+    p.put("mail.smtp.starttls.enable", Boolean.toString(startTLS));
+
+    if (startTLS) {
+      p.put("mail.smtp.starttls.required", "true");
+    }
+
     // mail user name and password
     p.setProperty("mail.user", user);
     p.setProperty("mail.password", passwd);
     // SSL Factory
-    p.put("mail.smtp.socketFactory.class",
-      javax.net.ssl.SSLSocketFactory.class.getName());
-    // creating session object to get properties
-    session = Session.getDefaultInstance(p, new javax.mail.Authenticator() {
-      // override the getPasswordAuthentication method
-      @Override
-      protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(user, passwd);
-      }
-    });
+    if (auth) {
+      p.put("mail.smtp.ssl.protocols", "TLSv1.2");
+      p.put("mail.smtp.socketFactory.class",
+        javax.net.ssl.SSLSocketFactory.class.getName());
+      p.put("mail.smtp.socketFactory.fallback", "false");
+
+      // creating session object to get properties
+      session = Session.getDefaultInstance(p, new javax.mail.Authenticator() {
+        // override the getPasswordAuthentication method
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+          return new PasswordAuthentication(user, passwd);
+        }
+      });
+    } else {
+      session = Session.getDefaultInstance(p);
+    }
   }
 
   /**

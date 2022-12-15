@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -37,6 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
+import javax.swing.table.TableModel;
 
 import org.apache.commons.text.StringSubstitutor;
 
@@ -61,7 +64,7 @@ import de.zbit.util.progressbar.gui.ProgressBarSwing;
 /**
  * @author Andreas Dr&auml;ger
  */
-public class MassMailToolUI extends BaseFrame {
+public class MassMailToolUI extends BaseFrame implements PreferenceChangeListener {
 
   /**
    * Required KEY for a Column Name in the table to get the e-mail addresses of recipients.
@@ -87,8 +90,6 @@ public class MassMailToolUI extends BaseFrame {
   private JTextField subject;
   private JTextArea message;
   private JTable table;
-  private String[] header;
-  private String[][] data;
   private EMailSender sender;
 
   /**
@@ -220,6 +221,7 @@ public class MassMailToolUI extends BaseFrame {
         GUITools.setEnabled(false, getJMenuBar(), getJToolBar(),
           BaseAction.FILE_OPEN, BaseAction.FILE_CLOSE, BaseAction.FILE_SAVE,
           BaseAction.FILE_SAVE_AS);
+        TableModel model = table.getModel();
         SwingWorker<String[], String[]> replaceAndSendWorker = new SwingWorker<>() {
 
           @Override
@@ -227,9 +229,9 @@ public class MassMailToolUI extends BaseFrame {
             String tokenStart = pref.get(ParseOptions.TOKEN_START);
             String tokenEnd = pref.get(ParseOptions.TOKEN_END);
             String result[] = {"", ""};
-            for (int i = 0; i < data.length; i++) {
-              for (int j = 0; j < header.length; j++) {
-                placeholder.put(header[j], data[i][j]);
+            for (int i = 0; i < model.getRowCount(); i++) {
+              for (int j = 0; j < model.getColumnCount(); j++) {
+                placeholder.put(model.getColumnName(j), model.getValueAt(i, j));
               }
               result[0] = replace(subject.getText(), placeholder, tokenStart, tokenEnd);
               result[1] = replace(message.getText(), placeholder, tokenStart, tokenEnd);
@@ -238,7 +240,7 @@ public class MassMailToolUI extends BaseFrame {
               if ((recipient == null) || recipient.isEmpty()) {
                 throw new Exception(format(bundle.getString("UNKNOWN_EMAIL_ADDR"), EMAIL));
               } else {
-                logger.info(format(bundle.getString(""), recipient));
+                logger.info(format(bundle.getString("SENDING_MESSAGE"), recipient));
                 sender.send(recipient, pref.get(MailServerOptions.EMAIL_ADDR), result[0], result[1]);
               }
             }
@@ -248,7 +250,7 @@ public class MassMailToolUI extends BaseFrame {
           @Override
           protected void process(List<String[]> chunks) {
             progressBar.drawProgressBar(
-              ((((int) progressBar.getCallNumber()) + chunks.size()) * 100) / data.length,
+              ((((int) progressBar.getCallNumber()) + chunks.size()) * 100) / model.getRowCount(),
               -1, null);
             super.process(chunks);
           }
@@ -341,12 +343,9 @@ public class MassMailToolUI extends BaseFrame {
         reader.setAutoDetectContentStart(false);
         CSVReader io = CSVImporterV2.showDialog(this, reader, bundle.getString("TITLE_TABLE_READER"));
         logger.info(format(bundle.getString("READING_CSV_FILE"), files[0].getName()));
-        header = io.getHeader();
-        data = io.getData();
+        String[] header = io.getHeader();
+        String[][] data = io.getData();
         if ((data != null) && (header != null)) {
-          for (int i = 0; i < header.length; i++) {
-            header[i] = header[i].trim();
-          }
           table = new JTable(data, header);
           split.setLeftComponent(
             new JScrollPane(table,
@@ -403,6 +402,13 @@ public class MassMailToolUI extends BaseFrame {
       }
     }
     return null;
+  }
+
+
+  @Override
+  public void preferenceChange(PreferenceChangeEvent evt) {
+    // Just make sure the connection to the email server is established upon any change.
+    sender = null;
   }
 
 }
