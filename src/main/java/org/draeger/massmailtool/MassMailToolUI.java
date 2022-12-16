@@ -66,10 +66,6 @@ import de.zbit.util.progressbar.gui.ProgressBarSwing;
  */
 public class MassMailToolUI extends BaseFrame implements PreferenceChangeListener {
 
-  /**
-   * Required KEY for a Column Name in the table to get the e-mail addresses of recipients.
-   */
-  public static final String EMAIL = "E-Mail";
 
   /** Generated serial version identifier */
   private static final long serialVersionUID = -4624807465999504777L;
@@ -142,7 +138,17 @@ public class MassMailToolUI extends BaseFrame implements PreferenceChangeListene
 
   @Override
   protected JToolBar createJToolBar() {
-    return createDefaultToolBar();
+    JToolBar toolbar = createDefaultToolBar();
+    for (int i = 0; i < toolbar.getComponentCount(); i++) {
+      Component component = toolbar.getComponent(i);
+      if (component instanceof JButton) {
+        JButton button = (JButton) component;
+        if (button.getIcon() == null) {
+          button.setIcon(UIManager.getIcon("ICON_HELP_16"));
+        }
+      }
+    }
+    return toolbar;
   }
 
 
@@ -222,6 +228,7 @@ public class MassMailToolUI extends BaseFrame implements PreferenceChangeListene
           BaseAction.FILE_OPEN, BaseAction.FILE_CLOSE, BaseAction.FILE_SAVE,
           BaseAction.FILE_SAVE_AS);
         TableModel model = table.getModel();
+        final String EMAIL = SBPreferences.getPreferencesFor(ParseOptions.class).get(ParseOptions.RECIPIENT_EMAIL);
         SwingWorker<String[], String[]> replaceAndSendWorker = new SwingWorker<>() {
 
           @Override

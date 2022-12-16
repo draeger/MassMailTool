@@ -173,7 +173,7 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
-						<finalName>${project.artifactId}-${project.version}</finalName>
+						<finalName>${project.artifactId}-${project.version}-full</finalName>
 						<appendAssemblyId>false</appendAssemblyId>
 						<!--<descriptor>assembly.xml</descriptor> --> <!-- Details of the assembly are described in this file -->
 					</configuration>
@@ -218,6 +218,7 @@
             </execution>
           </executions>
         </plugin>-->
+        <!-- mvn clean compile assembly:single launch4j:launch4j -->
         <plugin>
           <groupId>com.akathist.maven.plugins.launch4j</groupId>
           <artifactId>launch4j-maven-plugin</artifactId>
@@ -231,9 +232,10 @@
               </goals>
               <configuration>
                 <headerType>gui</headerType>
-                <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
+                <jar></jar>
+                <jar>${project.build.directory}/${project.artifactId}-${project.version}-full.jar</jar>
                 <outfile>${project.build.directory}/massmailtool.exe</outfile>
-                <downloadUrl>http://java.com/download</downloadUrl>
+                <downloadUrl>https://java.com/download</downloadUrl>
                 <classPath>
                   <mainClass>${app.main.class}</mainClass>
                   <preCp>anything</preCp>

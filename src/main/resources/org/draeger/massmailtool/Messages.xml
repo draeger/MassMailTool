@@ -45,6 +45,8 @@
   <entry key="TOKEN_START_TOOLTIP">Legt fest, welches Auszeichnungszeichen den Beginn eines Platzhalters markiert.</entry>
   <entry key="TOKEN_END">Marke zum Ende</entry>
   <entry key="TOKEN_END_TOOLTIP">Legt fest, welches Auszeichnungszeichen das Ende eines Platzhalters markiert.</entry>
+  <entry key="RECIPIENT_EMAIL">Marke für die Empfänger-E-Mail</entry>
+  <entry key="RECIPIENT_EMAIL_TOOLTIP">Schlüsselwort für die Empfänger-Adresse. Dieses legt fest, unter welcher Tabellenüberschrift das Programm suchen muss, um den Empfänger für eine E-Mail festlegen zu können.</entry>
     
   <entry key="TITLE_TABLE_READER">Tabelleneinstellungen</entry>
   

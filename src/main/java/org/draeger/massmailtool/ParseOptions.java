@@ -18,8 +18,9 @@ public interface ParseOptions extends KeyProvider {
 
   Option<String> TOKEN_START = new Option<>("TOKEN_START", String.class, bundle, "${");
   Option<String> TOKEN_END   = new Option<>("TOKEN_END",   String.class, bundle, "}");
+  Option<String> RECIPIENT_EMAIL = new Option<>("RECIPIENT_EMAIL", String.class, bundle, "E-Mail");
 
   @SuppressWarnings("unchecked")
-  OptionGroup<String> PARSING = new OptionGroup<String>("PARSING", bundle, TOKEN_START, TOKEN_END);
+  OptionGroup<String> PARSING = new OptionGroup<String>("PARSING", bundle, TOKEN_START, TOKEN_END, RECIPIENT_EMAIL);
 
 }
