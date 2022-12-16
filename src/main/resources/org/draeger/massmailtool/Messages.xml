@@ -65,7 +65,7 @@
   
   <entry key="CONNECTING_TO_SERVER">Stelle Verbindung zu {0} her.</entry>
   <entry key="STARTING_WORK">Beginne mit der Arbeit.</entry>
-  <entry key="UNKNOWN_EMAIL_ADDR">Die Tabelle muss zwingend eine Spalte mit der Überschrift „{0}” enthalten, damit Nachrichten versendet werden können. Bitte fügen Sie eine solche Spalte ein und starten Sie den Vorgang erneut.</entry>
+  <entry key="UNKNOWN_EMAIL_ADDR">Die Tabelle muss zwingend eine Spalte mit der Überschrift „{0}” enthalten, damit Nachrichten versendet werden können. Bitte fügen Sie eine solche Spalte ein, oder legen Sie in den Einstellungen ein anderes Schlüsselwort dafür fest, und starten Sie den Vorgang erneut.</entry>
   <entry key="SENDING_MESSAGE">Senden der Nachricht an {0}.</entry>
   <entry key="MESSAGE_SENT">Die Nachricht wurde erfolgreich an {0} gesendet.</entry>
   <entry key="SENDING_COMPLETED">Alle Nachrichten {0,number,integer} wurden verschickt.</entry>
