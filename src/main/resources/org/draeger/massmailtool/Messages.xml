@@ -38,7 +38,7 @@
   <entry key="AUTHENTIFICATION_TOOLTIP">Für erhöhte Sicherheitseinstellungen.</entry>
   <entry key="START_TLS">Start TLS</entry>
   <entry key="START_TLS_TOOLTIP">Für erhöhte Sicherheitseinstellungen.</entry>
-    
+  
   <entry key="PARSING">Platzhalter-Einstellungen</entry>
   <entry key="PARSING_TOOLTIP">Einstellungen zum Leseverhalten von Platzhaltern</entry>
   <entry key="TOKEN_START">Marke zum Anfang</entry>

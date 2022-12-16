@@ -139,6 +139,8 @@ public class MassMailToolUI extends BaseFrame implements PreferenceChangeListene
   @Override
   protected JToolBar createJToolBar() {
     JToolBar toolbar = createDefaultToolBar();
+    // This is just a workaround because for some reason the help icon dosn't
+    // get painted anymore. However, I want to avoid messing around in SysBio.
     for (int i = 0; i < toolbar.getComponentCount(); i++) {
       Component component = toolbar.getComponent(i);
       if (component instanceof JButton) {
@@ -248,7 +250,7 @@ public class MassMailToolUI extends BaseFrame implements PreferenceChangeListene
                 throw new Exception(format(bundle.getString("UNKNOWN_EMAIL_ADDR"), EMAIL));
               } else {
                 logger.info(format(bundle.getString("SENDING_MESSAGE"), recipient));
-                sender.send(recipient, pref.get(MailServerOptions.EMAIL_ADDR), result[0], result[1]);
+                sender.send(pref.get(MailServerOptions.EMAIL_ADDR), result[0], result[1], recipient);
               }
             }
             return result;

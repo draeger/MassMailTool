@@ -5,6 +5,7 @@ package org.draeger.massmailtool;
 
 import static java.text.MessageFormat.format;
 
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -90,14 +91,14 @@ public class EMailSender {
   /**
    * Sends the given message from the given address to the given recipient.
    *
-   * @param recipient email ID of recipient
    * @param sender email ID of the sender
    * @param sbj
    * @param mssg
+   * @param recipients email ID(s) of recipient(s)
    * @throws MessagingException
    * @throws AddressException
    */
-  public void send(String recipient, String sender, String sbj, String mssg) throws AddressException, MessagingException {
+  public void send(String sender, String sbj, String mssg, String... recipients) throws AddressException, MessagingException {
     // MimeMessage object.
     MimeMessage message = new MimeMessage(session);
 
@@ -105,7 +106,9 @@ public class EMailSender {
     message.setFrom(new InternetAddress(sender));
 
     // Set To Field: adding recipient's email to from field.
-    message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+    for (String recipient : recipients) {
+      message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+    }
 
     // Set Subject: subject of the email
     message.setSubject(sbj);
@@ -115,7 +118,8 @@ public class EMailSender {
 
     // Send email.
     Transport.send(message);
-    logger.info(format(bundle.getString("MESSAGE_SENT"), recipient));
+    String list = Arrays.toString(recipients);
+    logger.info(format(bundle.getString("MESSAGE_SENT"), list.substring(1, list.length() - 1)));
   }
 
 }
