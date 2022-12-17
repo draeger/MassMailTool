@@ -3,7 +3,7 @@ Ein nützliches eigenständiges Programm, um ähnliche E-Mails an zahlreiche Emp
 
 [![License (MIT)](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](http://opensource.org/licenses/MIT)
 [![Latest version](https://img.shields.io/badge/Latest_version-0.1-brightgreen.svg?style=plastic)](https://github.com/draeger/MassMailTool/releases/)
-[![DOI](http://img.shields.io/badge/DOI-10.XXX-blue.svg?style=plastic)](https://doi.org/XXX)
+[![DOI](https://zenodo.org/badge/576765843.svg)](https://zenodo.org/badge/latestdoi/576765843)
 ![Lines of Code](https://img.shields.io/tokei/lines/github/draeger/MassMailTool?color=orange&style=plastic)
 ![Code Size](https://img.shields.io/github/languages/code-size/draeger/MassMailTool.svg?style=plastic)
 ![Downloads of all releases](https://img.shields.io/github/downloads/draeger/MassMailTool/total.svg?style=plastic)
@@ -58,13 +58,16 @@ Nach dem Start des MassMailTools kann die eben erstellte CSV-Datei durch eine de
 * mit der Tastenkombination Strg + O (Windows und Linux) bzw. Cmd + O (unter macOS)
 * Datei > Öffnen in der Menüleiste
 * ein Klick auf das Öffnen-Symbol in der oberen Leiste:
-![Startansicht](docs/screenshots/1_Start.png)
+<img src="docs/screenshots/1_Start.png" alt="Startansicht" width=450>
 
 Anschließend wählt man die zu öffnende Datei aus:
-![Dateiauswahl](docs/screenshots/2_File-Chooser.png)
+
+<img src="docs/screenshots/2_File-Chooser.png" alt="Dateiauswahl" width=350 align="center">
 
 Danach erscheint ein Dialog mit einer Vorschau der einzulesenden Daten und Einstellungsmöglichkeiten, um das Verhalten beim Lesen der Datei zu beeinflussen.
-![CSV-Datei einlesen](docs/screenshots/3_CSV-Parser.png)
+
+<img src="docs/screenshots/3_CSV-Parser.png" alt="CSV-Datei einlesen" width="450">
+
 Die Schaltfläche "OK" schließt den Vorgang ab.
 
 Die Tabelle erscheint daraufhin im oberen Bereich des Fensters, wo alle Werte verändert und die Spalten getauscht werden können – nicht jedoch der Tabellenkopf.
@@ -125,7 +128,7 @@ Die derzeitige Implementierung ersetzt dazu grundsätzlich aufeinanderfolgende L
 **☞ Auswählen, Kopieren, Einfügen, Ausschneiden von Text:**
 Je nach Betriebssystem können für diese Aktionen unterschiedliche Tastenkombinationen genutzt werden, die sich sowohl auf Einträge in der Tabelle als auch in den Textfeldern für Betreff und Mitteilung beziehen. Sollten diese Aktionen nicht wunschgemäß funktionieren, genügt ein Rechtsklick. Daraufhin erscheint ein kleines Dialogfenster, das die entsprechende Aktion durch einen Linksklick ausführt.
 
-![Kopieren und Einfügen](docs/screenshots/4_Copy_Paste_With_Rightclick.png)
+<img src="docs/screenshots/4_Copy_Paste_With_Rightclick.png" alt="Kopieren und Einfügen" width="450">
 
 **☞ Hinweis:** Bevor Sie loslegen, erstellen Sie sich lieber eine kleine Tabelle, deren E-Mail-Spalte nur Ihre eigene Adresse enthält. So können Sie ausprobieren, ob in Ihrer Mitteilung alle Platzhalter korrekt ersetzt, und die Nachricht wie gewünscht versendet wird. Ist der Probelauf erfolgreich, können Sie mit der eigentlichen Tabelle arbeiten.
 
@@ -138,11 +141,11 @@ Damit die Nachrichten versendet werden können, muss jedoch der E-Mail-Server ei
 Sollte dies noch nicht in den Einstellungen vorgenommen worden sein, wird dazu ein eigenes Dialogfenster geöffnet, in das die Verbindungsdaten eingetragen werden müssen.
 Mit einem Klick auf die "OK"-Schaltfläche werden die Daten gespeichert.
 
-![Server-Einstellungen](docs/screenshots/5_Email-Settings.png)
+<img src="docs/screenshots/5_Email-Settings.png" alt="Server-Einstellungen" width="300" align="center">
 
 Weil der Versand an viele Empfänger auch zu Versehen und Fehlern führen kann, fragt das Programm noch einmal kurz nach einer Bestätigung, bevor die individuellen Mitteilungen generiert und endgültig versendet werden.
 
-![Bestätigung](docs/screenshots/6_Confirmation_Dialog.png)
+<img src="docs/screenshots/6_Confirmation_Dialog.png" alt="Bestätigung" width="300">
 
 **☞ Hinweise:**
 * Die aktuelle Implementierung unterstützt ausschließlich SMTP-Server, kein POP3.
@@ -155,7 +158,7 @@ Das Schlüsselwort "E-Mail" kann frei verändert werden. Wichtig ist, dass es ei
 
 Um den Tabellenkopf dieser Spalte als Schlüsselwort festzulegen, genügt ein Klick auf das Werkzeugsymbol in der oberen Leiste. Im daraufhin angezeigten Dialogfenster "Einstellungen" wählt man den Reiter "Parse Options" aus, wo sich sowohl die Marken für die Platzhalter als auch die Marke für die Tabellenspalte mit der E-Mail-Adresse der Empfänger ändern lässt.
 
-![Fortgeschrittene Einstellungen](docs/screenshots/7_Advanced_Options.png)
+<img src="docs/screenshots/7_Advanced_Options.png" alt="Fortgeschrittene Einstellungen" width="450">
 
 Der Einstellungsdialog kann durch einen Klick auf "Zurücksetzen" alle Standardwerte wieder herstellen, wobei jedoch auch die E-Mail-Einstellungen verloren gehen.
 
