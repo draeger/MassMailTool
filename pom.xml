@@ -165,39 +165,39 @@
             <target>${jdk.version}</target>
           </configuration>
         </plugin>
-        				<!-- Assemble executable JAR -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.6</version>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-								<mainClass>${app.main.class}</mainClass>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							</manifest>
-						</archive>
-						<descriptorRefs>
-							<descriptorRef>jar-with-dependencies</descriptorRef>
-						</descriptorRefs>
-						<finalName>${project.artifactId}-${project.version}-full</finalName>
-						<appendAssemblyId>false</appendAssemblyId>
-						<!--<descriptor>assembly.xml</descriptor> --> <!-- Details of the assembly are described in this file -->
-					</configuration>
-					<executions>
-						<execution>
-							<id>make-assembly</id> <!-- this is used for inheritance merges -->
-							<phase>package</phase> <!-- bind to the packaging phase -->
-							<goals>
-								<!-- This will create a JAR with all dependencies -->
-								<!-- mvn clean compile assembly:single -->
-								<goal>single</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
+        <!-- Assemble executable JAR -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <mainClass>${app.main.class}</mainClass>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+            <finalName>${project.artifactId}-${project.version}-full</finalName>
+            <appendAssemblyId>false</appendAssemblyId>
+          <!--<descriptor>src/assembly/assembly.xml</descriptor> --> <!-- Details of the assembly are described in this file -->
+          </configuration>
+          <executions>
+            <execution>
+              <id>make-assembly</id> <!-- this is used for inheritance merges -->
+              <phase>package</phase> <!-- bind to the packaging phase -->
+              <goals>
+                <!-- This will create a JAR with all dependencies -->
+                <!-- mvn clean compile assembly:single -->
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
        <!-- <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
@@ -241,12 +241,13 @@
               </goals>
               <configuration>
                 <headerType>gui</headerType>
-                <jar></jar>
                 <jar>${project.build.directory}/${project.artifactId}-${project.version}-full.jar</jar>
                 <outfile>${project.build.directory}/massmailtool.exe</outfile>
                 <downloadUrl>https://java.com/download</downloadUrl>
+                <errTitle>massmailtool</errTitle>
                 <classPath>
                   <mainClass>${app.main.class}</mainClass>
+                  <addDependencies>true</addDependencies>
                   <preCp>anything</preCp>
                 </classPath>
                 <!--<icon>application.ico</icon>-->

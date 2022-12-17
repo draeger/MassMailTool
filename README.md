@@ -18,9 +18,19 @@ ________________________________________________________________
 
 Die jeweils neueste Programmversion findet man [hier](https://github.com/draeger/MassMailTool/releases).
 
+Herunterladen kann man das Programm als ausfürbare JAR-Datei (Java Archive) mit folgendem Namensschema: `massmailtool-<Programmversion>-full.jar`.
+
 ## Das Programm starten
 
+Die heruntergeladene JAR-Datei kann man direkt durch einen Doppelklick ausführen.
 Sollte sich das Programm nicht durch Doppelklick starten lassen, muss ggf. zunächst Java installiert werden, was [hier](https://jdk.java.net/19/) für frei verfügbar ist.
+
+Alternativ kann man das Programm in einer Kommandozeile (wie der Windows-Eingabeaufforderung) folgendermaßen starten:
+```
+java -jar target/massmailtool-<Programmversion>-full.jar
+```
+(wobei `<Programmversion>` durch die aktuelle Versionsnummer ersetzt werden muss.)
+Unter Windows müsste man statt `java` den Befehl `javaw` aufrufen, damit die graphische Oberfläche des Programms gestartet wird.
 
 ## Eine Beispiel-Tabelle erstellen und einlesen
 
