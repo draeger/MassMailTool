@@ -1,7 +1,22 @@
 # MassMailTool
 Ein nützliches eigenständiges Programm, um ähnliche E-Mails an zahlreiche Empfänger zu senden.
 
-# Anleitung
+[![License (MIT)](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](http://opensource.org/licenses/MIT)
+[![Latest version](https://img.shields.io/badge/Latest_version-0.1-brightgreen.svg?style=plastic)](https://github.com/draeger/MassMailTool/releases/)
+[![DOI](http://img.shields.io/badge/DOI-10.XXX-blue.svg?style=plastic)](https://doi.org/XXX)
+![Lines of Code](https://img.shields.io/tokei/lines/github/draeger/MassMailTool?color=orange&style=plastic)
+![Code Size](https://img.shields.io/github/languages/code-size/draeger/MassMailTool.svg?style=plastic)
+![Downloads of all releases](https://img.shields.io/github/downloads/draeger/MassMailTool/total.svg?style=plastic)
+
+*Author:* [Andreas Dräger](https://github.com/draeger)
+
+________________________________________________________________
+
+# Kurzanleitung
+
+## Herunterladen
+
+Die jeweils neueste Programmversion findet man [hier](https://github.com/draeger/MassMailTool/releases).
 
 ## Das Programm starten
 
@@ -19,7 +34,9 @@ Hier ein Beispiel für eine solche Tabelle:
 |        | Frau   | Dr.   | Müller           | Das ist ein Fakt.      | mueller@example.com |
 | r      | Herr   |       | Meier            | Haben Sie das gehört?  | meier@example.com   |
 
-Damit die Tabelle im MassMailTool eingelesen werden kann, muss sie als CSV-Datei exportiert werden. Dazu gehen wir folgendermaßen vor:
+Es müssen also nicht immer alle Tabellenfelder gefüllt sein. Leere Einträge können ebenfalls wichtig sein, wie bei den "Damen und Herren".
+
+Damit die Tabelle im MassMailTool eingelesen werden kann, muss sie als CSV-Datei (engl. _Character-Separated Value_) exportiert werden. Dazu gehen wir folgendermaßen vor:
 
 * Microsoft Excel: "Datei > Speichern unter" und im Speicherdialog auf CSV-Dateien einstellen.
 * Apple Numbers: "Datei > Exportieren > CSV..." und Dialogfenster den Speicherort auswählen.
@@ -28,11 +45,16 @@ Damit die Tabelle im MassMailTool eingelesen werden kann, muss sie als CSV-Datei
 **☞ Hinweis:** Die Spaltennamen können zwar frei gewählt werden, sollten aber sicherheitshalber keine Leerzeichen enthalten. Notfalls können Unterstriche einzelne Wörter miteinander verbinden.
 
 Nach dem Start des MassMailTools kann die eben erstellte CSV-Datei durch eine der folgenden Aktionen öffnen:
-* ein Klick auf das Öffnen-Symbol in der oberen Leiste
 * mit der Tastenkombination Strg + O (Windows und Linux) bzw. Cmd + O (unter macOS)
 * Datei > Öffnen in der Menüleiste
+* ein Klick auf das Öffnen-Symbol in der oberen Leiste:
+![Startansicht](docs/screenshots/1_Start.png)
 
-Es erscheint ein Dialog mit einer Vorschau der einzulesenden Daten und Einstellungsmöglichkeiten, um das Verhalten beim Lesen der Datei zu beeinflussen.
+Anschließend wählt man die zu öffnende Datei aus:
+![Dateiauswahl](docs/screenshots/2_File-Chooser.png)
+
+Danach erscheint ein Dialog mit einer Vorschau der einzulesenden Daten und Einstellungsmöglichkeiten, um das Verhalten beim Lesen der Datei zu beeinflussen.
+![CSV-Datei einlesen](docs/screenshots/3_CSV-Parser.png)
 Die Schaltfläche "OK" schließt den Vorgang ab.
 
 Die Tabelle erscheint daraufhin im oberen Bereich des Fensters, wo alle Werte verändert und die Spalten getauscht werden können – nicht jedoch der Tabellenkopf.
@@ -93,6 +115,10 @@ Die derzeitige Implementierung ersetzt dazu grundsätzlich aufeinanderfolgende L
 **☞ Auswählen, Kopieren, Einfügen, Ausschneiden von Text:**
 Je nach Betriebssystem können für diese Aktionen unterschiedliche Tastenkombinationen genutzt werden, die sich sowohl auf Einträge in der Tabelle als auch in den Textfeldern für Betreff und Mitteilung beziehen. Sollten diese Aktionen nicht wunschgemäß funktionieren, genügt ein Rechtsklick. Daraufhin erscheint ein kleines Dialogfenster, das die entsprechende Aktion durch einen Linksklick ausführt.
 
+![Kopieren und Einfügen](docs/screenshots/4_Copy_Paste_With_Rightclick.png)
+
+**☞ Hinweis:** Bevor Sie loslegen, erstellen Sie sich lieber eine kleine Tabelle, deren E-Mail-Spalte nur Ihre eigene Adresse enthält. So können Sie ausprobieren, ob in Ihrer Mitteilung alle Platzhalter korrekt ersetzt, und die Nachricht wie gewünscht versendet wird. Ist der Probelauf erfolgreich, können Sie mit der eigentlichen Tabelle arbeiten.
+
 ### Wie versende ich den Text an alle Empfänger?
 
 Über der Statusleiste befindet sich eine Schaltfläche mit der Beschriftung "Abschicken".
@@ -102,7 +128,11 @@ Damit die Nachrichten versendet werden können, muss jedoch der E-Mail-Server ei
 Sollte dies noch nicht in den Einstellungen vorgenommen worden sein, wird dazu ein eigenes Dialogfenster geöffnet, in das die Verbindungsdaten eingetragen werden müssen.
 Mit einem Klick auf die "OK"-Schaltfläche werden die Daten gespeichert.
 
+![Server-Einstellungen](docs/screenshots/5_Email-Settings.png)
+
 Weil der Versand an viele Empfänger auch zu Versehen und Fehlern führen kann, fragt das Programm noch einmal kurz nach einer Bestätigung, bevor die individuellen Mitteilungen generiert und endgültig versendet werden.
+
+![Bestätigung](docs/screenshots/6_Confirmation_Dialog.png)
 
 **☞ Hinweise:**
 * Die aktuelle Implementierung unterstützt ausschließlich SMTP-Server, kein POP3.
@@ -115,6 +145,8 @@ Das Schlüsselwort "E-Mail" kann frei verändert werden. Wichtig ist, dass es ei
 
 Um den Tabellenkopf dieser Spalte als Schlüsselwort festzulegen, genügt ein Klick auf das Werkzeugsymbol in der oberen Leiste. Im daraufhin angezeigten Dialogfenster "Einstellungen" wählt man den Reiter "Parse Options" aus, wo sich sowohl die Marken für die Platzhalter als auch die Marke für die Tabellenspalte mit der E-Mail-Adresse der Empfänger ändern lässt.
 
+![Fortgeschrittene Einstellungen](docs/screenshots/7_Advanced_Options.png)
+
 Der Einstellungsdialog kann durch einen Klick auf "Zurücksetzen" alle Standardwerte wieder herstellen, wobei jedoch auch die E-Mail-Einstellungen verloren gehen.
 
 ## Weitere Programmfunktionen
@@ -126,3 +158,20 @@ Der Einstellungsdialog kann durch einen Klick auf "Zurücksetzen" alle Standardw
 * Informationen anzeigen: Ein Dialogfenster zeigt, wann und von welchen Autoren dieses Programm erstellt wurde.
 * Statusleiste aus- oder wieder einblenden: im Menü unter Ansicht > Status-Leiste
 * Zuletzt geöffnete Datei erneut öffnen: im Menü unter Datei > Zuletzt verwendet merkt sich das Programm bis zu zehn zuvor geöffnete CSV-Dateien, die dort mit einem Klick ausgewählt und erneut eingelesen werden können, wodurch man sich das Suchen der Datei im Auswahldialog erspart. Noch praktischer sind die dafür vorgesehenen Tastenkombinationen von Alt + 1 bis Alt 0, die jeweils auf eine Datei in der entsprechenden Reihung verweisen, sofern zuvor etwas geöffnet wurde.
+
+## Programm beenden
+
+Um das Programm vollständig zu beenden, genügt entweder
+* ein Klick auf das Schließen-Symbol im Fensterrahmen
+* je nach Betriebssystem eine Tastenkombination wie Alt + F4 oder Command + Q
+* ein Klick auf den entsprechenden Eintrag in der Menüleiste.
+
+**☞ Hinweis:** Das Programm speichert automatisch Einstellungen, die im Dialog mit dem Werkzeugsymbol eingegeben wurden sowie weitere Eigenschaften wie Größe und Position des Fensters sowie die zehn zuletzt geöffneten CSV-Dateien. Nicht gespeicherte Änderungen, die in der Tabelle vorgenommen wurden, oder auch jeglicher in den Textfeldern eingegebener E-Mail-Text oder Betreff, gehen in der aktuellen Implementierung jedoch unwiederbringlich verloren.
+
+## Fehler melden oder neue Funktionen vorschlagen
+
+Sollte einmal etwas nicht korrekt funktionieren oder Ideen für neue Funktionen bzw. Verbesserungsvorschläge aufkommen, können diese [hier](https://github.com/draeger/MassMailTool/issues) gemeldet werden, indem auf die Schaltfläche "New issue" geklickt wird.
+
+# Hauptentwickler
+
+[Dr. Andreas Dräger](https://github.com/draeger)

@@ -32,6 +32,7 @@
     <sysbio.version>1403</sysbio.version> <!-- SVN revision -->
     <quaqua.version>9</quaqua.version>
     <app.main.class>org.draeger.massmailtool.MassMailTool</app.main.class>
+    <site.path>https://draeger.github.io/${project.name}/docs/</site.path>
   </properties>
   
   <issueManagement>
@@ -53,6 +54,14 @@
       <name>${main.developer}</name>
       <url>https://github.com/draeger/</url>
       <id>draeger</id>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Germany/Berlin</timezone>
+      <properties>
+        <picUrl>https://avatars.githubusercontent.com/u/1740827</picUrl>
+      </properties>
     </developer>
   </developers>
   
