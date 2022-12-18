@@ -72,7 +72,7 @@ Die Schaltfläche "OK" schließt den Vorgang ab.
 
 Die Tabelle erscheint daraufhin im oberen Bereich des Fensters, wo alle Werte verändert und die Spalten getauscht werden können – nicht jedoch der Tabellenkopf.
 
-Im Weiteren Verlauf git stets der aktuelle Inhalt der Tabelle. Es werden also alle hier durchgeführten Änderungen berücksichtigt.
+Im Weiteren Verlauf gilt stets der aktuelle Inhalt der Tabelle. Es werden also alle hier durchgeführten Änderungen berücksichtigt.
 
 ## Eine E-Mail mit Platzhaltern erstellen
 
