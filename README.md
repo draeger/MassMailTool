@@ -52,6 +52,8 @@ Damit die Tabelle im MassMailTool eingelesen werden kann, muss sie als CSV-Datei
 * Apple Numbers: "Datei > Exportieren > CSV..." und Dialogfenster den Speicherort auswählen.
 * LibreOffice Calc: analog zu Excel
 
+Obige Beispieltabelle gibt es [hier](https://raw.githubusercontent.com/draeger/MassMailTool/main/src/test/java/org/draeger/massmailtool/Adressaten.csv) zum Herunterladen.
+
 **☞ Hinweis:** Die Spaltennamen können zwar frei gewählt werden, sollten aber sicherheitshalber keine Leerzeichen enthalten. Notfalls können Unterstriche einzelne Wörter miteinander verbinden.
 
 Nach dem Start des MassMailTools kann die eben erstellte CSV-Datei durch eine der folgenden Aktionen öffnen:
@@ -63,6 +65,8 @@ Nach dem Start des MassMailTools kann die eben erstellte CSV-Datei durch eine de
 Anschließend wählt man die zu öffnende Datei aus:
 
 <img src="docs/screenshots/2_File-Chooser.png" alt="Dateiauswahl" width=350 align="center">
+
+Eine Beispieldatei gibt es [hier](https://raw.githubusercontent.com/draeger/MassMailTool/main/src/test/java/org/draeger/massmailtool/Adressaten.csv) zum Herunterladen.
 
 Danach erscheint ein Dialog mit einer Vorschau der einzulesenden Daten und Einstellungsmöglichkeiten, um das Verhalten beim Lesen der Datei zu beeinflussen.
 
